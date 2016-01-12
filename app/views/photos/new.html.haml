@@ -1,0 +1,24 @@
+= form_for @photo do |f|
+  .form-group
+    .col-sm-4
+      = image_tag("upload.png", :width=>"200", :height=>"200", :class=>"thumb", :onclick=>"$(this).parent().find('.profile_pic').click();")
+      = f.file_field :image, :style=>"visibility:hidden", :class => "profile_pic", :onchange =>"readURL(this)"
+      =f.text_field :image_caption, class: 'form-control', autofocus: true, placeholder: 'Add Caption...' 
+      = f.hidden_field :user_id, :value => current_user.id
+      %br
+      = f.button "Upload", :class => 'btn btn-info' 
+
+
+:javascript
+  function readURL(input) {
+    
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function (e) {
+            $(input).parent().find(".thumb").attr('src', e.target.result);
+        }
+           
+        reader.readAsDataURL(input.files[0]);
+    }
+  }

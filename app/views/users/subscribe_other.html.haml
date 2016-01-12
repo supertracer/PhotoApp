@@ -1,0 +1,19 @@
+%table.table.table-responsive.table-bordered
+  %thead
+    %tr
+      %th Name
+      %th Profile picture
+      %th Sub
+  %tbody
+    - @users.each do |user|
+      - unless current_user.id == user.id
+        %tr{:class=> "info"}
+          %td
+            = user.name.capitalize
+          %td
+            %img{:alt => "...", :src => user.profile_image.url,height: 40,width: 40,style: "border-radius: 50%"}
+          %td
+            = link_to profile_users_path(:id => user.id) do
+              .btn.btn-primary
+                View Profile
+

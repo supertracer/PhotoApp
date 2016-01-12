@@ -1,0 +1,17 @@
+- provide(:title, @user.name)
+.row
+  %aside.col-md-4
+    %section
+      %h1
+        %img{:alt => "...", :src => current_user.profile_image.url,height: 40,width: 40,style: "border-radius: 50%"}
+        = @user.name
+    %section.stats
+      = render 'stats'
+  .col-md-8
+    = render 'follow_form' if logged_in?
+    - if @user.photos.any?
+      %h3
+        Microposts (#{@user.photos.count})
+      %ol.microposts
+        = render @microposts
+      = will_paginate @microposts

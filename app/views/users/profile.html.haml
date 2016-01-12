@@ -1,0 +1,44 @@
+.col-md-1
+  %h3
+    = @user.name.capitalize
+  %img{:alt => "...", :src => @user.profile_image.url,height: 100,width: 100,style: "border-radius: 50%"}
+  = render 'stats'
+  - unless current_user.id == @user.id
+    #follow_form
+      - if current_user.following?(@user)
+        = render 'unfollow'
+      - else
+        = render 'follow'
+
+- if @user.photos.any?  
+  .back-cover
+    - sorted_photo_ids=[]
+    - @user.photos.each do |photo|
+      - sorted_photo_ids << photo.id
+      - sorted_photo_ids.sort!
+    - sorted_photo_ids.reverse!    
+    .photo-container
+      %br
+      .row
+        .col-md-4
+          .polaroid
+            - sorted_photo_ids.each do |photo_id|
+              - photo = Photo.find(photo_id)
+              %h3
+                = photo.user.name.capitalize
+                %img{:alt => "...", :src => photo.user.profile_image.url,height: 40,width: 40,style: "border-radius: 50%"}
+              %img.profile{:alt => "...", :src => Photo.find(photo_id).image.url,height: 300,width: 300}
+                - if photo.created_at > Time.now.beginning_of_day
+                  %strong{style: "color: black"}
+                    = "#{time_ago_in_words(photo.created_at)} ago"
+                - else
+                  %strong{style: "color: black"}
+                    = photo.created_at.strftime("%b %d, %Y")
+- else
+  %h1
+    This USER has not updated any photo yet
+            
+
+
+
+

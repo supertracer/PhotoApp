@@ -1,0 +1,12 @@
+- @user ||= current_user
+%h3
+  .stats
+    %a{:href => "#"}
+      %strong#following.stat
+        = @user.following.count
+      Following
+    %hr  
+    %a{:href => "#"}
+      %strong#followers.stat
+        = @user.followers.count
+      Followers
